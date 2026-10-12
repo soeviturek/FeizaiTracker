@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 8.0.x
 
@@ -46,9 +46,8 @@ jobs:
         run: Copy-Item README.md, LICENSE, THIRD_PARTY_NOTICES.md -Destination dist\FeizaiTracker-win-x64
 
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: FeizaiTracker-win-x64
           path: dist\FeizaiTracker-win-x64
           if-no-files-found: error
-
