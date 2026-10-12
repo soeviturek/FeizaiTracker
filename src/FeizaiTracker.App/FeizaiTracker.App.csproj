@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>FeizaiTracker</AssemblyName>
+    <RootNamespace>FeizaiTracker.App</RootNamespace>
+    <Product>Feizai Tracker</Product>
+    <Description>A private, local-first calorie tracker made for Australia.</Description>
+    <Version>0.1.0</Version>
+    <Authors>Feizai Tracker contributors</Authors>
+    <ApplicationIcon>Assets\FeizaiTracker.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\common-foods.json" />
+  </ItemGroup>
+
+</Project>

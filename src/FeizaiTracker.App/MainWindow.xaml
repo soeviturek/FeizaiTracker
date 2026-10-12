@@ -1,0 +1,199 @@
+<Window x:Class="FeizaiTracker.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Feizai Tracker"
+        Width="1240"
+        Height="800"
+        MinWidth="1020"
+        MinHeight="680"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="236" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Background="{StaticResource DarkGreenBrush}">
+            <Grid Margin="18,24">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="34" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="42"
+                            Height="42"
+                            Background="{StaticResource GreenBrush}"
+                            CornerRadius="13">
+                        <TextBlock Text="F"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI Variable Display"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="White" />
+                    </Border>
+                    <StackPanel Margin="12,1,0,0">
+                        <TextBlock Text="Feizai"
+                                   Foreground="White"
+                                   FontFamily="Segoe UI Variable Display"
+                                   FontSize="19"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="CALORIE TRACKER"
+                                   Foreground="#91AF9B"
+                                   FontSize="9"
+                                   FontWeight="SemiBold" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2">
+                    <RadioButton GroupName="Navigation"
+                                 Style="{StaticResource NavButton}"
+                                 IsChecked="{Binding IsDashboardActive, Mode=OneWay}"
+                                 Command="{Binding NavigateDashboardCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE80F;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}"
+                                       FontSize="17"
+                                       Width="30" />
+                            <TextBlock Text="Today"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton GroupName="Navigation"
+                                 Style="{StaticResource NavButton}"
+                                 IsChecked="{Binding IsFoodsActive, Mode=OneWay}"
+                                 Command="{Binding NavigateFoodsCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8D4;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}"
+                                       FontSize="17"
+                                       Width="30" />
+                            <TextBlock Text="Add food"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton GroupName="Navigation"
+                                 Style="{StaticResource NavButton}"
+                                 IsChecked="{Binding IsInsightsActive, Mode=OneWay}"
+                                 Command="{Binding NavigateInsightsCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE9D2;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}"
+                                       FontSize="17"
+                                       Width="30" />
+                            <TextBlock Text="Insights"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton GroupName="Navigation"
+                                 Style="{StaticResource NavButton}"
+                                 IsChecked="{Binding IsSettingsActive, Mode=OneWay}"
+                                 Command="{Binding NavigateSettingsCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE713;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}"
+                                       FontSize="17"
+                                       Width="30" />
+                            <TextBlock Text="Settings"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}" />
+                        </StackPanel>
+                    </RadioButton>
+                </StackPanel>
+
+                <Border Grid.Row="3"
+                        Background="#16FFFFFF"
+                        CornerRadius="12"
+                        Padding="13">
+                    <StackPanel>
+                        <TextBlock Text="Private by default"
+                                   Foreground="White"
+                                   FontWeight="SemiBold"
+                                   FontSize="12" />
+                        <TextBlock Text="Your diary stays on this PC."
+                                   Foreground="#A9C2B1"
+                                   FontSize="11"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="104" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Margin="34,23,34,12">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding PageTitle}"
+                               Style="{StaticResource PageHeading}" />
+                    <TextBlock Text="{Binding PageSubtitle}"
+                               Foreground="{StaticResource MutedBrush}"
+                               FontSize="13"
+                               Margin="1,5,0,0" />
+                </StackPanel>
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="{StaticResource PaleGreenBrush}"
+                        CornerRadius="16"
+                        Padding="12,6">
+                    <TextBlock Text="AU"
+                               Foreground="{StaticResource DarkGreenBrush}"
+                               FontSize="11"
+                               FontWeight="Bold" />
+                </Border>
+            </Grid>
+
+            <ContentControl Grid.Row="1"
+                            Content="{Binding CurrentPage}" />
+
+            <Grid Grid.RowSpan="2"
+                  Panel.ZIndex="10"
+                  Background="#F2F4F6F2"
+                  Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <ProgressBar Width="180"
+                                 Height="4"
+                                 IsIndeterminate="True"
+                                 Foreground="{StaticResource GreenBrush}" />
+                    <TextBlock Text="Loading your local diary..."
+                               Foreground="{StaticResource MutedBrush}"
+                               Margin="0,16,0,0"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.RowSpan="2"
+                  Panel.ZIndex="11"
+                  Background="#F8F4F6F2"
+                  Visibility="{Binding HasStartupError, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Border Style="{StaticResource Card}"
+                        Width="520"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="Feizai Tracker could not start"
+                                   Style="{StaticResource SectionHeading}" />
+                        <TextBlock Text="{Binding StartupError}"
+                                   Foreground="{StaticResource MutedBrush}"
+                                   Margin="0,12,0,0" />
+                        <TextBlock Text="Your existing data was not changed."
+                                   Foreground="{StaticResource MutedBrush}"
+                                   Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

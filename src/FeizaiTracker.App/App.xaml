@@ -1,0 +1,273 @@
+<Application x:Class="FeizaiTracker.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:FeizaiTracker.App.Converters"
+             xmlns:viewModels="clr-namespace:FeizaiTracker.App.ViewModels"
+             xmlns:views="clr-namespace:FeizaiTracker.App.Views"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="InkColor">#17251D</Color>
+            <Color x:Key="MutedColor">#69776E</Color>
+            <Color x:Key="GreenColor">#3DAA68</Color>
+            <Color x:Key="DarkGreenColor">#163B2A</Color>
+            <Color x:Key="PaleGreenColor">#EAF6EE</Color>
+            <Color x:Key="SurfaceColor">#FFFFFF</Color>
+            <Color x:Key="CanvasColor">#F4F6F2</Color>
+            <Color x:Key="LineColor">#E2E8E2</Color>
+            <Color x:Key="OrangeColor">#FFB35C</Color>
+
+            <SolidColorBrush x:Key="InkBrush" Color="{StaticResource InkColor}" />
+            <SolidColorBrush x:Key="MutedBrush" Color="{StaticResource MutedColor}" />
+            <SolidColorBrush x:Key="GreenBrush" Color="{StaticResource GreenColor}" />
+            <SolidColorBrush x:Key="DarkGreenBrush" Color="{StaticResource DarkGreenColor}" />
+            <SolidColorBrush x:Key="PaleGreenBrush" Color="{StaticResource PaleGreenColor}" />
+            <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}" />
+            <SolidColorBrush x:Key="CanvasBrush" Color="{StaticResource CanvasColor}" />
+            <SolidColorBrush x:Key="LineBrush" Color="{StaticResource LineColor}" />
+            <SolidColorBrush x:Key="OrangeBrush" Color="{StaticResource OrangeColor}" />
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+
+            <Style TargetType="Window">
+                <Setter Property="FontFamily" Value="Segoe UI Variable Text" />
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+                <Setter Property="Background" Value="{StaticResource CanvasBrush}" />
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+
+            <Style x:Key="PageHeading" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI Variable Display" />
+                <Setter Property="FontSize" Value="28" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+
+            <Style x:Key="SectionHeading" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI Variable Display" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+
+            <Style x:Key="Card" TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+                <Setter Property="CornerRadius" Value="18" />
+                <Setter Property="Padding" Value="22" />
+                <Setter Property="BorderBrush" Value="#0D17251D" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius="18"
+                                          ShadowDepth="3"
+                                          Direction="270"
+                                          Color="#180C1F14"
+                                          Opacity="0.28" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="FontFamily" Value="Segoe UI Variable Text" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="11,9" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="FontFamily" Value="Segoe UI Variable Text" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="8,7" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="ListBox">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            </Style>
+
+            <Style TargetType="ListBoxItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="0,0,0,8" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+
+            <Style x:Key="PrimaryButton" TargetType="Button">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="{StaticResource GreenBrush}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="18,10" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="ButtonBorder"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="9"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#32955A" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#287C4A" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.45" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SecondaryButton" TargetType="Button"
+                   BasedOn="{StaticResource PrimaryButton}">
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+                <Setter Property="Background" Value="{StaticResource PaleGreenBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="ButtonBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="#CDE2D3"
+                                    BorderThickness="1"
+                                    CornerRadius="9"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#DBF0E2" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#CDE6D6" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.45" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="IconButton" TargetType="Button"
+                   BasedOn="{StaticResource SecondaryButton}">
+                <Setter Property="Padding" Value="10,7" />
+                <Setter Property="MinWidth" Value="38" />
+                <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            </Style>
+
+            <Style x:Key="TextButton" TargetType="Button">
+                <Setter Property="Foreground" Value="{StaticResource GreenBrush}" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="4" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.72" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="NavButton" TargetType="RadioButton">
+                <Setter Property="Foreground" Value="#BFD2C6" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Margin" Value="0,3" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="RadioButton">
+                            <Border x:Name="NavBorder"
+                                    Background="Transparent"
+                                    CornerRadius="10"
+                                    Padding="15,12">
+                                <ContentPresenter />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="NavBorder" Property="Background" Value="#1DFFFFFF" />
+                                    <Setter Property="Foreground" Value="White" />
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="NavBorder" Property="Background" Value="#27FFFFFF" />
+                                    <Setter Property="Foreground" Value="White" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SlimProgress" TargetType="ProgressBar">
+                <Setter Property="Height" Value="7" />
+                <Setter Property="Background" Value="#E5ECE6" />
+                <Setter Property="Foreground" Value="{StaticResource GreenBrush}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ProgressBar">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="4" />
+                                <Border x:Name="PART_Track"
+                                        CornerRadius="4">
+                                    <Border x:Name="PART_Indicator"
+                                            HorizontalAlignment="Left"
+                                            Background="{TemplateBinding Foreground}"
+                                            CornerRadius="4" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
+                <views:DashboardView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:FoodsViewModel}">
+                <views:FoodsView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:InsightsViewModel}">
+                <views:InsightsView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+                <views:SettingsView />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

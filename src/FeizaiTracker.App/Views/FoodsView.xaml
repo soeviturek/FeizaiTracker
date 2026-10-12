@@ -1,0 +1,312 @@
+<UserControl x:Class="FeizaiTracker.App.Views.FoodsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="34,2,34,34">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="180" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Search food names or scan/type a barcode"
+                     FontSize="15" />
+            <ComboBox Grid.Column="2"
+                      ItemsSource="{Binding Retailers}"
+                      SelectedItem="{Binding SelectedRetailer}" />
+            <Button Grid.Column="4"
+                    Content="Search online"
+                    Command="{Binding SearchOnlineCommand}"
+                    Style="{StaticResource PrimaryButton}" />
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.4*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="0.9*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Style="{StaticResource Card}"
+                    Padding="16">
+                <TabControl Background="Transparent"
+                            BorderThickness="0"
+                            SelectedIndex="{Binding SelectedTabIndex}">
+                    <TabItem Header="Australian foods">
+                        <Grid Margin="0,12,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="10" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <ComboBox ItemsSource="{Binding Categories}"
+                                      SelectedItem="{Binding SelectedCategory}"
+                                      HorizontalAlignment="Left"
+                                      Width="220" />
+                            <ListBox Grid.Row="2"
+                                     ItemsSource="{Binding LocalResults}"
+                                     SelectedItem="{Binding SelectedFood}"
+                                     VirtualizingPanel.IsVirtualizing="True">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border x:Name="ResultCard"
+                                                BorderThickness="1"
+                                                CornerRadius="11"
+                                                Padding="14">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontWeight="SemiBold"
+                                                               FontSize="14" />
+                                                    <TextBlock Text="{Binding DisplayBrand}"
+                                                               Foreground="{StaticResource MutedBrush}"
+                                                               FontSize="11"
+                                                               Margin="0,3,0,0" />
+                                                    <TextBlock Text="{Binding ServingDescription, StringFormat=Serving: {0}}"
+                                                               Foreground="{StaticResource MutedBrush}"
+                                                               FontSize="11"
+                                                               Margin="0,6,0,0" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1"
+                                                            Margin="15,0,0,0"
+                                                            VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding DefaultServingCalories, StringFormat={}{0:0} kcal}"
+                                                               FontWeight="SemiBold"
+                                                               HorizontalAlignment="Right" />
+                                                    <TextBlock Text="{Binding DefaultServingKilojoules, StringFormat={}{0:0} kJ}"
+                                                               Foreground="{StaticResource MutedBrush}"
+                                                               FontSize="10"
+                                                               HorizontalAlignment="Right"
+                                                               Margin="0,3,0,0" />
+                                                </StackPanel>
+                                            </Grid>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="#FAFCFA" />
+                                                    <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                                     Value="True">
+                                                            <Setter Property="Background" Value="{StaticResource PaleGreenBrush}" />
+                                                            <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Supermarket online">
+                        <Grid Margin="0,12,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="10" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding OnlineStatus}"
+                                       Foreground="{StaticResource MutedBrush}"
+                                       FontSize="12"
+                                       Visibility="{Binding HasOnlineStatus, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <ListBox Grid.Row="2"
+                                     ItemsSource="{Binding OnlineResults}"
+                                     SelectedItem="{Binding SelectedFood}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1"
+                                                CornerRadius="11"
+                                                Padding="14">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontWeight="SemiBold" />
+                                                    <TextBlock Foreground="{StaticResource MutedBrush}"
+                                                               FontSize="11"
+                                                               Margin="0,3,0,0">
+                                                        <Run Text="{Binding Brand}" />
+                                                        <Run Text="  " />
+                                                        <Run Text="{Binding Stores}" />
+                                                    </TextBlock>
+                                                    <TextBlock Text="{Binding ServingDescription, StringFormat=Serving: {0}}"
+                                                               Foreground="{StaticResource MutedBrush}"
+                                                               FontSize="11"
+                                                               Margin="0,6,0,0" />
+                                                </StackPanel>
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding DefaultServingCalories, StringFormat={}{0:0} kcal}"
+                                                           FontWeight="SemiBold"
+                                                           Margin="15,0,0,0"
+                                                           VerticalAlignment="Center" />
+                                            </Grid>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="#FAFCFA" />
+                                                    <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                                     Value="True">
+                                                            <Setter Property="Background" Value="{StaticResource PaleGreenBrush}" />
+                                                            <Setter Property="BorderBrush" Value="{StaticResource GreenBrush}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Border>
+
+            <ScrollViewer Grid.Column="2"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="Add to diary"
+                                       Style="{StaticResource SectionHeading}" />
+
+                            <StackPanel Margin="0,22"
+                                        Visibility="{Binding HasSelectedFood, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                <TextBlock Text="Select a food from the list"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="You can adjust the serving before adding it."
+                                           Foreground="{StaticResource MutedBrush}"
+                                           FontSize="12"
+                                           TextAlignment="Center"
+                                           Margin="0,5,0,0" />
+                            </StackPanel>
+
+                            <StackPanel Visibility="{Binding HasSelectedFood, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="{Binding SelectedFood.Name}"
+                                           FontSize="19"
+                                           FontWeight="SemiBold"
+                                           Margin="0,14,0,0" />
+                                <TextBlock Text="{Binding SelectedFood.DisplayBrand}"
+                                           Foreground="{StaticResource MutedBrush}"
+                                           Margin="0,3,0,0" />
+                                <TextBlock Text="{Binding SelectedFood.NutritionSummary}"
+                                           Foreground="{StaticResource MutedBrush}"
+                                           FontSize="11"
+                                           Margin="0,10,0,0" />
+
+                                <TextBlock Text="Amount"
+                                           FontWeight="SemiBold"
+                                           Margin="0,18,0,6" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="58" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Border Grid.Column="1"
+                                            Background="#EDF1ED"
+                                            BorderBrush="{StaticResource LineBrush}"
+                                            BorderThickness="0,1,1,1"
+                                            Padding="8"
+                                            CornerRadius="0,4,4,0">
+                                        <TextBlock Text="{Binding SelectedFood.MeasureUnit}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{StaticResource MutedBrush}" />
+                                    </Border>
+                                </Grid>
+
+                                <TextBlock Text="Meal"
+                                           FontWeight="SemiBold"
+                                           Margin="0,14,0,6" />
+                                <ComboBox ItemsSource="{Binding Meals}"
+                                          SelectedItem="{Binding SelectedMeal}" />
+
+                                <Border Background="{StaticResource PaleGreenBrush}"
+                                        CornerRadius="12"
+                                        Padding="14"
+                                        Margin="0,16,0,0">
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Text="This serving"
+                                                       Foreground="{StaticResource MutedBrush}"
+                                                       FontSize="11" />
+                                            <TextBlock Text="{Binding PreviewCalories, StringFormat={}{0:0.#} kcal}"
+                                                       FontSize="22"
+                                                       FontWeight="SemiBold"
+                                                       Margin="0,2,0,0" />
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding PreviewKilojoules, StringFormat={}{0:0} kJ}"
+                                                   HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{StaticResource MutedBrush}" />
+                                    </Grid>
+                                </Border>
+
+                                <Button Content="Add to today"
+                                        Command="{Binding AddFoodCommand}"
+                                        Style="{StaticResource PrimaryButton}"
+                                        Margin="0,16,0,0" />
+                            </StackPanel>
+
+                            <TextBlock Text="{Binding StatusMessage}"
+                                       Foreground="{StaticResource GreenBrush}"
+                                       FontSize="12"
+                                       Margin="0,10,0,0"
+                                       Visibility="{Binding HasStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}"
+                            Margin="0,16,0,0">
+                        <Expander Header="Create a custom food"
+                                  FontWeight="SemiBold">
+                            <StackPanel Margin="0,14,0,0">
+                                <TextBlock Text="Name"
+                                           FontSize="12"
+                                           Margin="0,0,0,5" />
+                                <TextBox Text="{Binding CustomName, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="Calories per 100 g"
+                                           FontSize="12"
+                                           Margin="0,11,0,5" />
+                                <TextBox Text="{Binding CustomCalories, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="Default serving (g)"
+                                           FontSize="12"
+                                           Margin="0,11,0,5" />
+                                <TextBox Text="{Binding CustomServing, UpdateSourceTrigger=PropertyChanged}" />
+                                <Button Content="Save custom food"
+                                        Command="{Binding CreateCustomFoodCommand}"
+                                        Style="{StaticResource SecondaryButton}"
+                                        Margin="0,12,0,0" />
+                            </StackPanel>
+                        </Expander>
+                    </Border>
+
+                    <TextBlock Text="Online product data: Open Food Facts (ODbL). Nutrition data can vary; check the package label."
+                               Foreground="{StaticResource MutedBrush}"
+                               FontSize="10"
+                               Margin="8,12,8,0" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

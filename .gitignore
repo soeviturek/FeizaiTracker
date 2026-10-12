@@ -1,0 +1,14 @@
+bin/
+obj/
+dist/
+.vs/
+.vscode/
+*.user
+*.suo
+*.pdb
+*.nupkg
+TestResults/
+coverage/
+*.tmp
+*.log
+

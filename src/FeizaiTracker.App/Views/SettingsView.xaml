@@ -1,0 +1,129 @@
+<UserControl x:Class="FeizaiTracker.App.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="34,2,34,34"
+                    MaxWidth="900"
+                    HorizontalAlignment="Left">
+            <Border Style="{StaticResource Card}"
+                    Width="720"
+                    HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="220" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Daily calorie target"
+                                   Style="{StaticResource SectionHeading}" />
+                        <TextBlock Text="Used for your progress ring and on-target insights."
+                                   Foreground="{StaticResource MutedBrush}"
+                                   FontSize="12"
+                                   Margin="0,5,20,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Text="{Binding DailyTarget, UpdateSourceTrigger=PropertyChanged}"
+                                 MaxLength="5" />
+                        <Button Content="Save target"
+                                Command="{Binding SaveGoalCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,10,0,0" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}"
+                    Width="720"
+                    HorizontalAlignment="Left"
+                    Margin="0,16,0,0">
+                <StackPanel>
+                    <TextBlock Text="Your data"
+                               Style="{StaticResource SectionHeading}" />
+                    <TextBlock Text="All diary entries and imported foods are stored locally. Feizai Tracker has no account, analytics or cloud sync."
+                               Foreground="{StaticResource MutedBrush}"
+                               FontSize="12"
+                               Margin="0,5,0,16" />
+                    <Border Background="#F4F6F2"
+                            CornerRadius="9"
+                            Padding="12">
+                        <TextBlock Text="{Binding DataPath}"
+                                   FontFamily="Consolas"
+                                   FontSize="11"
+                                   Foreground="{StaticResource MutedBrush}" />
+                    </Border>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0,14,0,0">
+                        <Button Content="Open data folder"
+                                Command="{Binding OpenDataFolderCommand}"
+                                Style="{StaticResource SecondaryButton}" />
+                        <Button Content="Export diary as CSV"
+                                Command="{Binding ExportCsvCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="10,0,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}"
+                    Width="720"
+                    HorizontalAlignment="Left"
+                    Margin="0,16,0,0">
+                <StackPanel>
+                    <TextBlock Text="Food data sources"
+                               Style="{StaticResource SectionHeading}" />
+                    <TextBlock Text="Australian staples"
+                               FontWeight="SemiBold"
+                               Margin="0,15,0,0" />
+                    <TextBlock Text="Food Standards Australia New Zealand, Australian Food Composition Database (CC BY 2.5 AU)."
+                               Foreground="{StaticResource MutedBrush}"
+                               FontSize="12"
+                               Margin="0,4,0,0" />
+                    <Button Content="View the AFCD website"
+                            Command="{Binding OpenUrlCommand}"
+                            CommandParameter="https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd"
+                            Style="{StaticResource TextButton}"
+                            HorizontalAlignment="Left"
+                            Margin="-4,5,0,0" />
+
+                    <TextBlock Text="Packaged supermarket products"
+                               FontWeight="SemiBold"
+                               Margin="0,13,0,0" />
+                    <TextBlock Text="Open Food Facts contributors (ODbL). Coverage and accuracy vary by product; always check the package label."
+                               Foreground="{StaticResource MutedBrush}"
+                               FontSize="12"
+                               Margin="0,4,0,0" />
+                    <Button Content="View Open Food Facts"
+                            Command="{Binding OpenUrlCommand}"
+                            CommandParameter="https://world.openfoodfacts.org/"
+                            Style="{StaticResource TextButton}"
+                            HorizontalAlignment="Left"
+                            Margin="-4,5,0,0" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}"
+                    Width="720"
+                    HorizontalAlignment="Left"
+                    Margin="0,16,0,0">
+                <StackPanel>
+                    <TextBlock Text="About"
+                               Style="{StaticResource SectionHeading}" />
+                    <TextBlock Text="Feizai Tracker is free and open-source software. It is a general tracking tool, not medical advice."
+                               Foreground="{StaticResource MutedBrush}"
+                               FontSize="12"
+                               Margin="0,6,0,0" />
+                    <TextBlock Text="{Binding AppVersion}"
+                               Foreground="{StaticResource MutedBrush}"
+                               FontSize="11"
+                               Margin="0,12,0,0" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="{StaticResource GreenBrush}"
+                       FontSize="12"
+                       Margin="4,14,0,0"
+                       Visibility="{Binding HasStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

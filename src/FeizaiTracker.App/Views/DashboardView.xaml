@@ -1,0 +1,296 @@
+<UserControl x:Class="FeizaiTracker.App.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:FeizaiTracker.App.Controls">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="34,2,34,34">
+            <Grid Margin="0,0,0,16">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="&#xE76B;"
+                            Command="{Binding PreviousDayCommand}"
+                            Style="{StaticResource IconButton}" />
+                    <Button Content="&#xE76C;"
+                            Command="{Binding NextDayCommand}"
+                            Style="{StaticResource IconButton}"
+                            Margin="8,0,0,0" />
+                    <TextBlock Text="{Binding DateLabel}"
+                               FontSize="15"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"
+                               Margin="14,0,0,0" />
+                </StackPanel>
+                <Button Content="Back to today"
+                        Command="{Binding TodayCommand}"
+                        Style="{StaticResource TextButton}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding IsToday, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.9*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="1.1*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Style="{StaticResource Card}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Daily energy"
+                                   Style="{StaticResource SectionHeading}" />
+                        <controls:CalorieRing Grid.Row="1"
+                                              Width="214"
+                                              Height="214"
+                                              Margin="0,10"
+                                              HorizontalAlignment="Center"
+                                              Value="{Binding TotalCalories, Mode=OneWay}"
+                                              Maximum="{Binding DailyTarget, Mode=OneWay}" />
+                        <StackPanel Grid.Row="2"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding RemainingLabel}"
+                                       HorizontalAlignment="Center"
+                                       FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding DailyTarget, StringFormat=Target: {0:N0} kcal}"
+                                       Foreground="{StaticResource MutedBrush}"
+                                       FontSize="12"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <StackPanel Grid.Column="2">
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="Macronutrients"
+                                       Style="{StaticResource SectionHeading}" />
+
+                            <Grid Margin="0,18,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Protein" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Protein, StringFormat={}{0:0.#} g}"
+                                           Foreground="{StaticResource MutedBrush}" />
+                            </Grid>
+                            <ProgressBar Style="{StaticResource SlimProgress}"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         Value="{Binding ProteinProgress, Mode=OneWay}"
+                                         Margin="0,7,0,0" />
+
+                            <Grid Margin="0,14,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Carbohydrates" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Carbohydrates, StringFormat={}{0:0.#} g}"
+                                           Foreground="{StaticResource MutedBrush}" />
+                            </Grid>
+                            <ProgressBar Style="{StaticResource SlimProgress}"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         Value="{Binding CarbohydrateProgress, Mode=OneWay}"
+                                         Margin="0,7,0,0" />
+
+                            <Grid Margin="0,14,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Fat" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Fat, StringFormat={}{0:0.#} g}"
+                                           Foreground="{StaticResource MutedBrush}" />
+                            </Grid>
+                            <ProgressBar Style="{StaticResource SlimProgress}"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         Value="{Binding FatProgress, Mode=OneWay}"
+                                         Margin="0,7,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}"
+                            Margin="0,16,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Quick add"
+                                       Style="{StaticResource SectionHeading}" />
+                            <TextBlock Text="For meals where you only know the calories."
+                                       Foreground="{StaticResource MutedBrush}"
+                                       FontSize="12"
+                                       Margin="0,4,0,14" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="6" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.9*" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="1.3*" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="0.9*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Calories"
+                                           FontSize="11"
+                                           FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="2"
+                                           Text="Description"
+                                           FontSize="11"
+                                           FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="4"
+                                           Text="Meal"
+                                           FontSize="11"
+                                           FontWeight="SemiBold" />
+                                <TextBox Grid.Row="2"
+                                         Text="{Binding QuickCalories, UpdateSourceTrigger=PropertyChanged}"
+                                         ToolTip="Calories"
+                                         MaxLength="7" />
+                                <TextBox Grid.Row="2"
+                                         Grid.Column="2"
+                                         Text="{Binding QuickDescription, UpdateSourceTrigger=PropertyChanged}"
+                                         ToolTip="Description"
+                                         MaxLength="80" />
+                                <ComboBox Grid.Row="2"
+                                          Grid.Column="4"
+                                          ItemsSource="{Binding Meals}"
+                                          SelectedItem="{Binding SelectedQuickMeal}" />
+                            </Grid>
+                            <Button Content="Add calories"
+                                    Command="{Binding QuickAddCommand}"
+                                    Style="{StaticResource PrimaryButton}"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,12,0,0" />
+                            <TextBlock Text="{Binding StatusMessage}"
+                                       Foreground="{StaticResource GreenBrush}"
+                                       FontSize="12"
+                                       Margin="0,9,0,0"
+                                       Visibility="{Binding HasStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <Border Style="{StaticResource Card}"
+                    Margin="0,16,0,0">
+                <StackPanel>
+                    <Grid>
+                        <TextBlock Text="Last 7 days"
+                                   Style="{StaticResource SectionHeading}" />
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+                            <Border Width="18"
+                                    Height="3"
+                                    Background="{StaticResource OrangeBrush}"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,7,0" />
+                            <TextBlock Text="Daily target"
+                                       Foreground="{StaticResource MutedBrush}"
+                                       FontSize="11" />
+                        </StackPanel>
+                    </Grid>
+                    <controls:TrendChart Items="{Binding WeekPoints}"
+                                         Target="{Binding DailyTarget}"
+                                         Height="220"
+                                         Margin="0,12,0,0" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}"
+                    Margin="0,16,0,0">
+                <StackPanel>
+                    <TextBlock Text="Diary"
+                               Style="{StaticResource SectionHeading}" />
+
+                    <StackPanel Margin="0,22"
+                                HorizontalAlignment="Center"
+                                Visibility="{Binding HasEntries, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                        <TextBlock Text="&#xE8D4;"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="28"
+                                   Foreground="#AAB8AE"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="Nothing logged for this day"
+                                   FontWeight="SemiBold"
+                                   Margin="0,10,0,0"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="Use Add food in the sidebar or the quick add above."
+                                   Foreground="{StaticResource MutedBrush}"
+                                   FontSize="12"
+                                   Margin="0,5,0,0"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+
+                    <ItemsControl ItemsSource="{Binding Entries}"
+                                  Margin="0,12,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{StaticResource LineBrush}"
+                                        BorderThickness="0,0,0,1"
+                                        Padding="0,11">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="86" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="40" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Background="{StaticResource PaleGreenBrush}"
+                                                CornerRadius="12"
+                                                Padding="9,5"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Meal}"
+                                                       Foreground="{StaticResource DarkGreenBrush}"
+                                                       FontSize="11"
+                                                       FontWeight="SemiBold" />
+                                        </Border>
+                                        <StackPanel Grid.Column="1"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding FoodName}"
+                                                       FontWeight="SemiBold" />
+                                            <TextBlock Foreground="{StaticResource MutedBrush}"
+                                                       FontSize="11"
+                                                       Margin="0,3,0,0">
+                                                <Run Text="{Binding Brand}" />
+                                                <Run Text="  " />
+                                                <Run Text="{Binding AmountLabel}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding Calories, StringFormat={}{0:0.#} kcal}"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Right" />
+                                        <Button Grid.Column="3"
+                                                Content="&#xE74D;"
+                                                FontFamily="Segoe MDL2 Assets"
+                                                Foreground="#A35D58"
+                                                ToolTip="Remove entry"
+                                                Style="{StaticResource TextButton}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Command="{Binding DataContext.RemoveEntryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
