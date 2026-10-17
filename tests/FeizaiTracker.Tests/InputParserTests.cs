@@ -25,4 +25,14 @@ public sealed class InputParserTests
     {
         Assert.Equal(expected, InputParser.TryPositiveDecimal(input, out _));
     }
+
+    [Theory]
+    [InlineData("-2.5", -2.5)]
+    [InlineData("0", 0)]
+    [InlineData("36.25", 36.25)]
+    public void TryDecimal_AllowsSignedMeasurementValues(string input, decimal expected)
+    {
+        Assert.True(InputParser.TryDecimal(input, out var value));
+        Assert.Equal(expected, value);
+    }
 }

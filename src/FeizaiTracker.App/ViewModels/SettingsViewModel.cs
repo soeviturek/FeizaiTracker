@@ -9,18 +9,22 @@ public sealed class SettingsViewModel : ObservableObject
 {
     private readonly AppState _state;
     private string _dailyTarget = string.Empty;
+    private string _dailyWaterTarget = string.Empty;
     private string _statusMessage = string.Empty;
 
     public SettingsViewModel(AppState state)
     {
         _state = state;
         SaveGoalCommand = new AsyncRelayCommand(SaveGoalAsync);
+        SaveWaterGoalCommand = new AsyncRelayCommand(SaveWaterGoalAsync);
         ExportCsvCommand = new AsyncRelayCommand(ExportCsvAsync);
         OpenDataFolderCommand = new RelayCommand(OpenDataFolder);
         OpenUrlCommand = new RelayCommand(OpenUrl);
     }
 
     public AsyncRelayCommand SaveGoalCommand { get; }
+
+    public AsyncRelayCommand SaveWaterGoalCommand { get; }
 
     public AsyncRelayCommand ExportCsvCommand { get; }
 
@@ -32,6 +36,12 @@ public sealed class SettingsViewModel : ObservableObject
     {
         get => _dailyTarget;
         set => SetProperty(ref _dailyTarget, value);
+    }
+
+    public string DailyWaterTarget
+    {
+        get => _dailyWaterTarget;
+        set => SetProperty(ref _dailyWaterTarget, value);
     }
 
     public string DataPath => _state.DataPath;
@@ -58,7 +68,27 @@ public sealed class SettingsViewModel : ObservableObject
     public void Refresh()
     {
         DailyTarget = _state.Settings.DailyCalorieTarget.ToString();
+        DailyWaterTarget = _state.Settings.DailyWaterTargetMillilitres.ToString();
         OnPropertyChanged(nameof(DataPath));
+    }
+
+    private async Task SaveWaterGoalAsync()
+    {
+        if (!int.TryParse(DailyWaterTarget, out var target) || target is < 500 or > 10000)
+        {
+            StatusMessage = "Enter a daily water target between 500 and 10,000 mL.";
+            return;
+        }
+
+        try
+        {
+            await _state.UpdateDailyWaterTargetAsync(target);
+            StatusMessage = "Daily water target saved.";
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            StatusMessage = $"Could not save the water target: {exception.Message}";
+        }
     }
 
     private async Task SaveGoalAsync()
@@ -84,7 +114,7 @@ public sealed class SettingsViewModel : ObservableObject
     {
         var dialog = new SaveFileDialog
         {
-            Title = "Export calorie history",
+            Title = "Export tracking history",
             Filter = "CSV file (*.csv)|*.csv",
             FileName = $"feizai-tracker-{DateTime.Today:yyyy-MM-dd}.csv",
             AddExtension = true,
@@ -98,8 +128,15 @@ public sealed class SettingsViewModel : ObservableObject
 
         try
         {
-            await CsvExportService.ExportAsync(dialog.FileName, _state.Entries);
-            StatusMessage = $"Exported {_state.Entries.Count} entries.";
+            await CsvExportService.ExportAsync(
+                dialog.FileName,
+                _state.Entries,
+                _state.WaterEntries,
+                _state.MeasurementDefinitions,
+                _state.MeasurementEntries);
+            StatusMessage =
+                $"Exported {_state.Entries.Count} food, {_state.WaterEntries.Count} water " +
+                $"and {_state.MeasurementEntries.Count} measurement entries.";
         }
         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
         {

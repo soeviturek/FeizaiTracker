@@ -6,7 +6,7 @@ namespace FeizaiTracker.Tests;
 public sealed class FoodCatalogServiceTests
 {
     [Fact]
-    public async Task BundledCatalogue_LoadsAustralianFoodsAndSearchesByName()
+    public async Task BundledCatalogue_LoadsExpandedFoodsAndSearchesByNameOrBrand()
     {
         var state = await CreateStateAsync();
         var catalog = new FoodCatalogService(state);
@@ -14,10 +14,22 @@ public sealed class FoodCatalogServiceTests
         await catalog.InitializeAsync();
         var results = catalog.Search("banana");
 
-        Assert.True(catalog.AllFoods.Count >= 100);
+        Assert.True(catalog.AllFoods.Count >= 150);
+        Assert.Equal(catalog.AllFoods.Count, catalog.Search(null).Count);
         Assert.NotEmpty(catalog.Categories);
         Assert.Equal("Banana", results[0].Name);
         Assert.Equal("FSANZ AFCD", results[0].Source);
+        Assert.Equal(
+            "Whey protein concentrate",
+            catalog.Search("whey protein")[0].Name);
+        Assert.Contains(
+            catalog.Search("cheese burger"),
+            food => food.Name == "Cheese burger, takeaway");
+        Assert.Contains(
+            catalog.Search("KFC"),
+            food => food.Brand == "KFC");
+        Assert.True(catalog.IsBundledFood("kfc-au:zinger-burger"));
+        Assert.False(catalog.IsBundledFood("custom:not-bundled"));
 
         Cleanup(state.DataPath);
     }

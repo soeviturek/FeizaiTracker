@@ -34,36 +34,117 @@
                     <ColumnDefinition Width="1.1*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0"
-                        Style="{StaticResource Card}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="Daily energy"
-                                   Style="{StaticResource SectionHeading}" />
-                        <controls:CalorieRing Grid.Row="1"
-                                              Width="214"
-                                              Height="214"
-                                              Margin="0,10"
-                                              HorizontalAlignment="Center"
-                                              Value="{Binding TotalCalories, Mode=OneWay}"
-                                              Maximum="{Binding DailyTarget, Mode=OneWay}" />
-                        <StackPanel Grid.Row="2"
-                                    HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding RemainingLabel}"
-                                       HorizontalAlignment="Center"
-                                       FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding DailyTarget, StringFormat=Target: {0:N0} kcal}"
-                                       Foreground="{StaticResource MutedBrush}"
+                <StackPanel Grid.Column="0">
+                    <Border Style="{StaticResource Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Daily energy"
+                                       Style="{StaticResource SectionHeading}" />
+                            <controls:CalorieRing Grid.Row="1"
+                                                  Width="214"
+                                                  Height="214"
+                                                  Margin="0,10"
+                                                  HorizontalAlignment="Center"
+                                                  Value="{Binding TotalCalories, Mode=OneWay}"
+                                                  Maximum="{Binding DailyTarget, Mode=OneWay}" />
+                            <StackPanel Grid.Row="2"
+                                        HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding RemainingLabel}"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding DailyTarget, StringFormat=Target: {0:N0} kcal}"
+                                           Foreground="{StaticResource MutedBrush}"
+                                           FontSize="12"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4,0,0" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}"
+                            Margin="0,16,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Water"
+                                       Style="{StaticResource SectionHeading}" />
+                            <Grid Margin="0,14,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding WaterSummaryLabel}"
+                                           FontSize="23"
+                                           FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding WaterRemainingLabel}"
+                                           Foreground="{StaticResource MutedBrush}"
+                                           FontSize="12"
+                                           VerticalAlignment="Center" />
+                            </Grid>
+                            <ProgressBar Style="{StaticResource SlimProgress}"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         Value="{Binding WaterProgress, Mode=OneWay}"
+                                         Margin="0,8,0,0" />
+
+                            <TextBlock Text="Quick add"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Margin="0,16,0,6" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button Content="+250 mL"
+                                        Command="{Binding QuickAddWaterCommand}"
+                                        CommandParameter="250"
+                                        Style="{StaticResource SecondaryButton}" />
+                                <Button Grid.Column="2"
+                                        Content="+500 mL"
+                                        Command="{Binding QuickAddWaterCommand}"
+                                        CommandParameter="500"
+                                        Style="{StaticResource SecondaryButton}" />
+                            </Grid>
+
+                            <Grid Margin="0,9,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding WaterAmount, UpdateSourceTrigger=PropertyChanged}"
+                                         ToolTip="Custom water amount in millilitres"
+                                         MaxLength="4" />
+                                <Button Grid.Column="2"
+                                        Content="Add mL"
+                                        Command="{Binding AddWaterCommand}"
+                                        Style="{StaticResource PrimaryButton}" />
+                            </Grid>
+
+                            <Grid Margin="0,12,0,0">
+                                <TextBlock Text="{Binding LatestWaterLabel}"
+                                           Foreground="{StaticResource MutedBrush}"
+                                           FontSize="11"
+                                           VerticalAlignment="Center" />
+                                <Button Content="Undo last"
+                                        Command="{Binding UndoLastWaterCommand}"
+                                        Style="{StaticResource TextButton}"
+                                        HorizontalAlignment="Right"
+                                        Visibility="{Binding HasWaterEntries, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </Grid>
+                            <TextBlock Text="{Binding WaterStatusMessage}"
+                                       Foreground="{StaticResource GreenBrush}"
                                        FontSize="12"
-                                       HorizontalAlignment="Center"
-                                       Margin="0,4,0,0" />
+                                       Margin="0,8,0,0"
+                                       Visibility="{Binding HasWaterStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         </StackPanel>
-                    </Grid>
-                </Border>
+                    </Border>
+                </StackPanel>
 
                 <StackPanel Grid.Column="2">
                     <Border Style="{StaticResource Card}">

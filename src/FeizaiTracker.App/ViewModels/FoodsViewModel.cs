@@ -287,7 +287,7 @@ public sealed class FoodsViewModel : ObservableObject
 
         try
         {
-            if (!string.Equals(SelectedFood.Source, "FSANZ AFCD", StringComparison.OrdinalIgnoreCase))
+            if (!_catalog.IsBundledFood(SelectedFood.Id))
             {
                 await _state.UpsertFoodAsync(SelectedFood);
             }

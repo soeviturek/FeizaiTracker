@@ -43,7 +43,7 @@
                                    FontFamily="Segoe UI Variable Display"
                                    FontSize="19"
                                    FontWeight="SemiBold" />
-                        <TextBlock Text="CALORIE TRACKER"
+                        <TextBlock Text="HEALTH TRACKER"
                                    Foreground="#91AF9B"
                                    FontSize="9"
                                    FontWeight="SemiBold" />
@@ -76,6 +76,20 @@
                                        FontSize="17"
                                        Width="30" />
                             <TextBlock Text="Add food"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton GroupName="Navigation"
+                                 Style="{StaticResource NavButton}"
+                                 IsChecked="{Binding IsMeasurementsActive, Mode=OneWay}"
+                                 Command="{Binding NavigateMeasurementsCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE9D9;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}"
+                                       FontSize="17"
+                                       Width="30" />
+                            <TextBlock Text="Measurements"
                                        Foreground="{Binding RelativeSource={RelativeSource AncestorType=RadioButton}, Path=Foreground}" />
                         </StackPanel>
                     </RadioButton>

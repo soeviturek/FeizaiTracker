@@ -9,8 +9,8 @@
     <AssemblyName>FeizaiTracker</AssemblyName>
     <RootNamespace>FeizaiTracker.App</RootNamespace>
     <Product>Feizai Tracker</Product>
-    <Description>A private, local-first calorie tracker made for Australia.</Description>
-    <Version>0.1.0</Version>
+    <Description>A private, local-first nutrition, hydration and body measurement tracker.</Description>
+    <Version>0.2.0</Version>
     <Authors>Feizai Tracker contributors</Authors>
     <ApplicationIcon>Assets\FeizaiTracker.ico</ApplicationIcon>
   </PropertyGroup>

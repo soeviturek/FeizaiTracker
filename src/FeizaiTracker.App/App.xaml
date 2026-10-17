@@ -262,6 +262,9 @@
             <DataTemplate DataType="{x:Type viewModels:FoodsViewModel}">
                 <views:FoodsView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:MeasurementsViewModel}">
+                <views:MeasurementsView />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:InsightsViewModel}">
                 <views:InsightsView />
             </DataTemplate>

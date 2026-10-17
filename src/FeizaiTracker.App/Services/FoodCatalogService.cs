@@ -35,6 +35,10 @@ public sealed class FoodCatalogService
             .DistinctBy(food => food.Id)
             .ToList();
 
+    public bool IsBundledFood(string foodId) =>
+        _bundledFoods.Any(food =>
+            string.Equals(food.Id, foodId, StringComparison.OrdinalIgnoreCase));
+
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
         var assembly = Assembly.GetExecutingAssembly();
@@ -57,7 +61,7 @@ public sealed class FoodCatalogService
     public IReadOnlyList<FoodItem> Search(
         string? query,
         string? category = null,
-        int limit = 120)
+        int limit = 250)
     {
         var normalizedQuery = query?.Trim() ?? string.Empty;
         var foods = AllFoods.AsEnumerable();

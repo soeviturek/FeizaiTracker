@@ -36,10 +36,39 @@
                     Width="720"
                     HorizontalAlignment="Left"
                     Margin="0,16,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="220" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Daily water target"
+                                   Style="{StaticResource SectionHeading}" />
+                        <TextBlock Text="Used for the water progress bar on your dashboard."
+                                   Foreground="{StaticResource MutedBrush}"
+                                   FontSize="12"
+                                   Margin="0,5,20,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Text="{Binding DailyWaterTarget, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Daily water target in millilitres"
+                                 MaxLength="5" />
+                        <Button Content="Save water target"
+                                Command="{Binding SaveWaterGoalCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,10,0,0" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}"
+                    Width="720"
+                    HorizontalAlignment="Left"
+                    Margin="0,16,0,0">
                 <StackPanel>
                     <TextBlock Text="Your data"
                                Style="{StaticResource SectionHeading}" />
-                    <TextBlock Text="All diary entries and imported foods are stored locally. Feizai Tracker has no account, analytics or cloud sync."
+                    <TextBlock Text="All diary, water, measurement and imported food data is stored locally. Feizai Tracker has no account, analytics or cloud sync."
                                Foreground="{StaticResource MutedBrush}"
                                FontSize="12"
                                Margin="0,5,0,16" />
@@ -56,7 +85,7 @@
                         <Button Content="Open data folder"
                                 Command="{Binding OpenDataFolderCommand}"
                                 Style="{StaticResource SecondaryButton}" />
-                        <Button Content="Export diary as CSV"
+                        <Button Content="Export all history as CSV"
                                 Command="{Binding ExportCsvCommand}"
                                 Style="{StaticResource PrimaryButton}"
                                 Margin="10,0,0,0" />

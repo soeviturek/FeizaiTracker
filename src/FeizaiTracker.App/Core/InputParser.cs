@@ -5,11 +5,16 @@ namespace FeizaiTracker.App;
 
 public static partial class InputParser
 {
-    public static bool TryPositiveDecimal(string? input, out decimal value)
+    public static bool TryDecimal(string? input, out decimal value)
     {
         var styles = NumberStyles.Number;
-        return decimal.TryParse(input, styles, CultureInfo.CurrentCulture, out value) && value > 0
-            || decimal.TryParse(input, styles, CultureInfo.InvariantCulture, out value) && value > 0;
+        return decimal.TryParse(input, styles, CultureInfo.CurrentCulture, out value) ||
+            decimal.TryParse(input, styles, CultureInfo.InvariantCulture, out value);
+    }
+
+    public static bool TryPositiveDecimal(string? input, out decimal value)
+    {
+        return TryDecimal(input, out value) && value > 0;
     }
 
     public static decimal ParseServingAmount(string? servingSize, decimal fallback = 100)

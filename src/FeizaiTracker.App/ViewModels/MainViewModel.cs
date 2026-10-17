@@ -6,7 +6,7 @@ public sealed class MainViewModel : ObservableObject
 {
     private object? _currentPage;
     private string _pageTitle = "Today";
-    private string _pageSubtitle = "Your daily energy at a glance";
+    private string _pageSubtitle = "Your daily energy and hydration at a glance";
     private bool _isLoading = true;
     private string _startupError = string.Empty;
 
@@ -23,11 +23,13 @@ public sealed class MainViewModel : ObservableObject
 
         Dashboard = new DashboardViewModel(state);
         Foods = new FoodsViewModel(state, catalog, openFoodFacts);
+        Measurements = new MeasurementsViewModel(state);
         Insights = new InsightsViewModel(state);
         Settings = new SettingsViewModel(state);
 
         NavigateDashboardCommand = new RelayCommand(NavigateDashboard);
         NavigateFoodsCommand = new RelayCommand(NavigateFoods);
+        NavigateMeasurementsCommand = new RelayCommand(NavigateMeasurements);
         NavigateInsightsCommand = new RelayCommand(NavigateInsights);
         NavigateSettingsCommand = new RelayCommand(NavigateSettings);
 
@@ -38,6 +40,8 @@ public sealed class MainViewModel : ObservableObject
 
     public FoodsViewModel Foods { get; }
 
+    public MeasurementsViewModel Measurements { get; }
+
     public InsightsViewModel Insights { get; }
 
     public SettingsViewModel Settings { get; }
@@ -45,6 +49,8 @@ public sealed class MainViewModel : ObservableObject
     public RelayCommand NavigateDashboardCommand { get; }
 
     public RelayCommand NavigateFoodsCommand { get; }
+
+    public RelayCommand NavigateMeasurementsCommand { get; }
 
     public RelayCommand NavigateInsightsCommand { get; }
 
@@ -59,6 +65,7 @@ public sealed class MainViewModel : ObservableObject
             {
                 OnPropertyChanged(nameof(IsDashboardActive));
                 OnPropertyChanged(nameof(IsFoodsActive));
+                OnPropertyChanged(nameof(IsMeasurementsActive));
                 OnPropertyChanged(nameof(IsInsightsActive));
                 OnPropertyChanged(nameof(IsSettingsActive));
             }
@@ -101,6 +108,8 @@ public sealed class MainViewModel : ObservableObject
 
     public bool IsFoodsActive => ReferenceEquals(CurrentPage, Foods);
 
+    public bool IsMeasurementsActive => ReferenceEquals(CurrentPage, Measurements);
+
     public bool IsInsightsActive => ReferenceEquals(CurrentPage, Insights);
 
     public bool IsSettingsActive => ReferenceEquals(CurrentPage, Settings);
@@ -113,6 +122,7 @@ public sealed class MainViewModel : ObservableObject
             await _catalog.InitializeAsync();
             Dashboard.Initialize();
             Foods.Initialize();
+            Measurements.Initialize();
             Insights.Initialize();
             Settings.Initialize();
         }
@@ -130,13 +140,22 @@ public sealed class MainViewModel : ObservableObject
     private void NavigateDashboard()
     {
         Dashboard.Refresh();
-        SetPage(Dashboard, "Today", "Your daily energy at a glance");
+        SetPage(Dashboard, "Today", "Your daily energy and hydration at a glance");
     }
 
     private void NavigateFoods()
     {
         Foods.Refresh();
         SetPage(Foods, "Add food", "Australian staples and supermarket products");
+    }
+
+    private void NavigateMeasurements()
+    {
+        Measurements.Refresh();
+        SetPage(
+            Measurements,
+            "Measurements",
+            "Track weight, body measurements and any custom metric");
     }
 
     private void NavigateInsights()

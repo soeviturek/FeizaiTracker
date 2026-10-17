@@ -43,8 +43,37 @@ public sealed class JsonAppDataStore : IAppDataStore
                 JsonOptions,
                 cancellationToken);
 
-            return data ?? throw new InvalidDataException(
-                $"The data file at '{DataPath}' is empty or invalid.");
+            if (data is null)
+            {
+                throw new InvalidDataException(
+                    $"The data file at '{DataPath}' is empty or invalid.");
+            }
+
+            data.SchemaVersion = Math.Max(data.SchemaVersion, 3);
+            data.Settings ??= new AppSettings();
+            data.ImportedFoods ??= [];
+            data.Entries ??= [];
+            data.WaterEntries ??= [];
+            data.MeasurementDefinitions ??= [];
+            data.MeasurementEntries ??= [];
+
+            var weight = data.MeasurementDefinitions.FirstOrDefault(definition =>
+                string.Equals(
+                    definition.Id,
+                    MeasurementDefinition.WeightId,
+                    StringComparison.OrdinalIgnoreCase));
+            if (weight is null)
+            {
+                data.MeasurementDefinitions.Insert(0, MeasurementDefinition.CreateWeight());
+            }
+            else
+            {
+                weight.Name = "Weight";
+                weight.Unit = "kg";
+                weight.IsBuiltIn = true;
+            }
+
+            return data;
         }
         catch (JsonException exception)
         {
